@@ -1,1 +1,1 @@
-lesson-3:创建react&redux应用程序
+lesson-4:配置redux的store
