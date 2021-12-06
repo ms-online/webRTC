@@ -1,2 +1,2 @@
-lesson-7:创建加入会议房间组件
+lesson-8:redux中派发第一个action - isRoomHost
 
