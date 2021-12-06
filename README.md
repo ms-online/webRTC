@@ -1,4 +1,2 @@
-lesson-6:创建介绍页组件及按钮
+lesson-7:创建加入会议房间组件
 
-### react-router-dom V5 和 V6 对比
-https://github.com/remix-run/react-router/blob/main/docs/upgrading/v5.md
