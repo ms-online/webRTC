@@ -1,7 +1,17 @@
 import React from 'react';
+import ChatSection from './ChatSection/ChatSection';
+import ParticipantsSection from './ParticipantsSection/ParticipantsSection';
 
+import './Roompage.css';
+import VideoSection from './VideoSection/VideoSection';
 const RoomPage = () => {
-  return <div>这是项目的房间页面——会议室页面！</div>;
+  return (
+    <div className='room_container'>
+      <ParticipantsSection />
+      <VideoSection />
+      <ChatSection />
+    </div>
+  );
 };
 
 export default RoomPage;
