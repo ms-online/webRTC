@@ -3,6 +3,7 @@ import JoinRoomInputs from './JoinRoomInputs';
 import { connect } from 'react-redux';
 import OnlyWithAudioCheckbox from './OnlyWithAudioCheckbox';
 import { setConnectOnlyWithAudio } from '../../store/actions';
+import ErrorMessage from './ErrorMessage';
 const JoinRoomContent = (props) => {
   const { isRoomHost, setConnectOnlyWithAudio, connectOnlyWithAudio } = props;
   const [roomIdValue, setRoomIdValue] = useState('');
@@ -21,6 +22,7 @@ const JoinRoomContent = (props) => {
         connectOnlyWithAudio={connectOnlyWithAudio}
         setConnectOnlyWithAudio={setConnectOnlyWithAudio}
       />
+      <ErrorMessage errorMessage='会议ID不正确！' />
     </>
   );
 };
