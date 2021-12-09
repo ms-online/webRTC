@@ -47,6 +47,11 @@ const io = require('socket.io')(server, {
 // 服务器监听客户端socketio连接
 io.on('connection', (socket) => {
   console.log(`用户已实现socket连接${socket.id}`);
+
+  socket.on('create-new-room', (data) => {
+    console.log('主持人正在创建会议房间...');
+    console.log(data);
+  });
 });
 //监听端口号
 server.listen(PORT, () => {

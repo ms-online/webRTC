@@ -1,5 +1,6 @@
 import store from '../store/store';
 import { setShowOverlay } from '../store/actions';
+import * as wss from './wss';
 //指定请求的媒体类型和相对应的参数。
 const defaultConstraints = {
   audio: true,
@@ -25,7 +26,9 @@ export const getLocalPreviewAndInitRoomConnection = async (
 
       //派发action隐藏加载动画
       store.dispatch(setShowOverlay(false));
+
       //初始化房间连接
+      isRoomHost ? wss.createNewRoom(identity) : wss.joinRoom(roomId, identity);
     })
     .catch((error) => {
       console.log('无法获取本地媒体流！');
