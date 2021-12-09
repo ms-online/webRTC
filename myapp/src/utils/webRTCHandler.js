@@ -1,9 +1,12 @@
+//指定请求的媒体类型和相对应的参数。
 const defaultConstraints = {
   audio: true,
   video: true,
 };
 
 let localStream;
+
+//获取本地预览及初始化房间连接
 export const getLocalPreviewAndInitRoomConnection = (
   isRoomHost,
   identity,
@@ -13,6 +16,7 @@ export const getLocalPreviewAndInitRoomConnection = (
   navigator.mediaDevices
     .getUserMedia(defaultConstraints)
     .then((stream) => {
+      //   console.log('成功获取本地媒体流');
       localStream = stream;
       //预览本地视频
       showLocalVideoPreview(localStream);
@@ -24,6 +28,5 @@ export const getLocalPreviewAndInitRoomConnection = (
     });
 };
 
-const showLocalVideoPreview = (stream) => {
-  //显示本地视频
-};
+//显示本地视频
+const showLocalVideoPreview = (stream) => {};
