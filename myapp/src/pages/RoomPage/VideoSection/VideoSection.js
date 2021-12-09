@@ -1,7 +1,12 @@
 import React from 'react';
+import VideoButtons from './VideoButtons';
 
 const VideoSection = () => {
-  return <div className='video_section_container'>这是视频展示区域</div>;
+  return (
+    <div className='video_section_container'>
+      <VideoButtons />
+    </div>
+  );
 };
 
 export default VideoSection;
