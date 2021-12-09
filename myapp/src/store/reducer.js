@@ -4,6 +4,7 @@ const initState = {
   isRoomHost: false,
   connectOnlyWithAudio: false,
   roomId: null,
+  showOverlay: true,
 };
 
 const reducer = (state = initState, action) => {
@@ -30,6 +31,12 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         identity: action.identity,
+      };
+      break;
+    case Actions.SET_SHOW_OVERLAY:
+      return {
+        ...state,
+        showOverlay: action.showOverlay,
       };
       break;
 

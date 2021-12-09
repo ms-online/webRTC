@@ -1,3 +1,5 @@
+import store from '../store/store';
+import { setShowOverlay } from '../store/actions';
 //指定请求的媒体类型和相对应的参数。
 const defaultConstraints = {
   audio: true,
@@ -7,7 +9,7 @@ const defaultConstraints = {
 let localStream;
 
 //获取本地预览及初始化房间连接
-export const getLocalPreviewAndInitRoomConnection = (
+export const getLocalPreviewAndInitRoomConnection = async (
   isRoomHost,
   identity,
   roomId = null
@@ -20,6 +22,9 @@ export const getLocalPreviewAndInitRoomConnection = (
       localStream = stream;
       //预览本地视频
       showLocalVideoPreview(localStream);
+
+      //派发action隐藏加载动画
+      store.dispatch(setShowOverlay(false));
       //初始化房间连接
     })
     .catch((error) => {
