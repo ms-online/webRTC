@@ -2,9 +2,9 @@ import React from 'react';
 
 const LeaveRoomButton = () => {
   const handleRoomDisconnection = () => {
-    // 动态获取接口
+    // 返回站点主地址，并不包括（？）之后的查询字串。
     const siteUrl = window.location.origin;
-    // 设置当前定向到的URL
+    // 当前页面打开URL页面
     window.location.href = siteUrl;
   };
   return (
