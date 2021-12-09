@@ -83,6 +83,7 @@ const createNewRoomHandler = (data, socket) => {
   rooms = [...rooms, newRoom];
 
   //向客户端发送数据告知会议房间已创建（roomId）
+  socket.emit('room-id', { roomId });
 
   //发送通知告知有新用户加入并更新房间
 };
