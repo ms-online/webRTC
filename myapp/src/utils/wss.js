@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import store from '../store/store';
 import { setRoomId, setParticipants } from '../store/actions';
+import * as webRTCHandler from './webRTCHandler';
 const SERVER = 'http://localhost:5000';
 
 let socket = null;
@@ -18,6 +19,12 @@ export const connectWithSocketIOServer = () => {
   socket.on('room-update', (data) => {
     const { connectedUsers } = data;
     store.dispatch(setParticipants(connectedUsers));
+  });
+
+  socket.on('conn-prepare', (data) => {
+    const { connUserSocketId } = data;
+    //准备webRTC连接(应答方-false)
+    webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);
   });
 };
 
