@@ -51,6 +51,10 @@ io.on('connection', (socket) => {
   socket.on('create-new-room', (data) => {
     createNewRoomHandler(data, socket);
   });
+
+  socket.on('join-room', (data) => {
+    joinRoomHandler(data, socket);
+  });
 });
 
 // socket.io handler
@@ -87,6 +91,30 @@ const createNewRoomHandler = (data, socket) => {
 
   //发送通知告知有新用户加入并更新房间
   socket.emit('room-update', { connectedUsers: newRoom.connectedUsers });
+};
+
+const joinRoomHandler = (data, socket) => {
+  const { roomId, identity } = data;
+
+  const newUser = {
+    identity,
+    id: uuidv4(),
+    roomId,
+    socketId: socket.id,
+  };
+
+  //判断传递过来的roomId是否匹配对应会议房间
+  const room = rooms.find((room) => room.id === roomId);
+  room.connectedUsers = [...room.connectedUsers, newUser];
+
+  //加入房间
+  socket.join(roomId);
+
+  //将新用户添加到已连接的用户数组里面
+  connectedUsers = [...connectedUsers, newUser];
+
+  //发送通知告知有新用户加入并更新房间
+  io.to(roomId).emit('room-update', { connectedUsers: room.connectedUsers });
 };
 
 //监听端口号

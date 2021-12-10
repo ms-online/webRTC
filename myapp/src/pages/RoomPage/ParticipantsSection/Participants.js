@@ -19,7 +19,7 @@ const Participants = ({ participants }) => {
         return (
           <SingelParticipant
             identity={participant.identity}
-            lastItem={Participants.length === index + 1}
+            lastItem={participants.length === index + 1}
             participant={participant}
             key={participant.identity}
           />
