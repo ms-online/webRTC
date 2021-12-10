@@ -1,3 +1,3 @@
-lesson-30:创建离开及删除会议房间的处理程序
+lesson-31:应用webRTCMesh架构介绍
 
 
