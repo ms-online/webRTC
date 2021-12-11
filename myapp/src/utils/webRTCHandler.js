@@ -1,5 +1,6 @@
 import store from '../store/store';
 import { setShowOverlay } from '../store/actions';
+import Peer from 'simple-peer';
 import * as wss from './wss';
 //指定请求的媒体类型和相对应的参数。
 const defaultConstraints = {
@@ -36,8 +37,29 @@ export const getLocalPreviewAndInitRoomConnection = async (
     });
 };
 
+let peers = {};
+
+//配置STUN服务器
+const getConfiguration = () => {
+  return {
+    iceServers: [
+      {
+        urls: 'stun:stun1.l.google.com:19302',
+      },
+    ],
+  };
+};
+
 //准备webRTC连接
-export const prepareNewPeerConnection = (connUserSocketId, isInitator) => {};
+export const prepareNewPeerConnection = (connUserSocketId, isInitator) => {
+  const configuration = getConfiguration();
+  //实例化对等连接对象
+  peers[connUserSocketId] = new Peer({
+    initiator: isInitator,
+    config: configuration,
+    stream: localStream,
+  });
+};
 
 //显示本地视频
 const showLocalVideoPreview = (stream) => {};
