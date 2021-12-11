@@ -26,6 +26,9 @@ export const connectWithSocketIOServer = () => {
     //准备webRTC连接(应答方-false)
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);
   });
+  socket.on('conn-signal', (data) => {
+    webRTCHandler.handleSignalingData(data);
+  });
 };
 
 //主持人创建会议房间
@@ -46,4 +49,8 @@ export const joinRoom = (roomId, identity) => {
   };
 
   socket.emit('join-room', data);
+};
+
+export const signalPeerData = (data) => {
+  socket.emit('conn-signal', data);
 };

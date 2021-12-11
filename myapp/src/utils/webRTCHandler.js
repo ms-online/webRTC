@@ -59,6 +59,22 @@ export const prepareNewPeerConnection = (connUserSocketId, isInitator) => {
     config: configuration,
     stream: localStream,
   });
+
+  //信令数据传递
+  peers[connUserSocketId].on('signal', (data) => {
+    //==>peer1.on('signal', data)
+    //data - webrtc offer, answer, or ice candidate
+    const signalData = {
+      signal: data,
+      connUserSocketId: connUserSocketId,
+    };
+    wss.signalPeerData(signalData);
+  });
+};
+
+export const handleSignalingData = (data) => {
+  //将信令数据添加到对等连接中
+  peers[data.connUserSocketId].signal(data.signal); //==> peer2.signal(data)
 };
 
 //显示本地视频

@@ -59,6 +59,9 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     disconnectHandler(socket);
   });
+  socket.on('conn-signal', (data) => {
+    signalingHandler(data, socket);
+  });
 });
 
 // socket.io handler
@@ -159,6 +162,13 @@ const disconnectHandler = (socket) => {
       rooms = rooms.filters((r) => r.id !== room.id);
     }
   }
+};
+
+const signalingHandler = (data, socket) => {
+  const { connUserSocketId, signal } = data;
+
+  const signalingData = { signal, conneUserSocketId: socket.id };
+  io.to(connUserSocketId).emit('conn-signal', signalingData);
 };
 
 //监听端口号
