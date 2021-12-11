@@ -38,7 +38,7 @@ export const getLocalPreviewAndInitRoomConnection = async (
 };
 
 let peers = {};
-
+let streams = [];
 //配置STUN服务器
 const getConfiguration = () => {
   return {
@@ -70,6 +70,13 @@ export const prepareNewPeerConnection = (connUserSocketId, isInitator) => {
     };
     wss.signalPeerData(signalData);
   });
+
+  //获取媒体流stream
+  peers[connUserSocketId].on('stream', (stream) => {
+    //显示接收的stream媒体流
+    addSteam(stream, connUserSocketId);
+    streams = [...stream, stream];
+  });
 };
 
 export const handleSignalingData = (data) => {
@@ -79,3 +86,8 @@ export const handleSignalingData = (data) => {
 
 //显示本地视频
 const showLocalVideoPreview = (stream) => {};
+
+//添加接收的stream媒体流病进行显示
+const addSteam = (stream, connUserSocketId) => {
+  //使用js创建容器展示视频
+};
