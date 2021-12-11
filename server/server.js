@@ -62,6 +62,9 @@ io.on('connection', (socket) => {
   socket.on('conn-signal', (data) => {
     signalingHandler(data, socket);
   });
+  socket.on('conn-init', (data) => {
+    initializeConnectionHandler(data, socket);
+  });
 });
 
 // socket.io handler
@@ -169,6 +172,13 @@ const signalingHandler = (data, socket) => {
 
   const signalingData = { signal, conneUserSocketId: socket.id };
   io.to(connUserSocketId).emit('conn-signal', signalingData);
+};
+
+const initializeConnectionHandler = (data, socket) => {
+  const { connUserSocketId } = data;
+
+  const initData = { connUserSocketId: socket.id };
+  io.to(connUserSocketId).emit('conn-init', initData);
 };
 
 //监听端口号

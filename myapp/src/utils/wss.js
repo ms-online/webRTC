@@ -25,9 +25,18 @@ export const connectWithSocketIOServer = () => {
     const { connUserSocketId } = data;
     //准备webRTC连接(应答方-false)
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);
+
+    //通知对方我已经准备完毕可以进行webRTC连接
+    socket.emit('conn-init', { connUserSocketId: connUserSocketId });
   });
   socket.on('conn-signal', (data) => {
     webRTCHandler.handleSignalingData(data);
+  });
+
+  socket.on('conn-init', (data) => {
+    const { connUserSocketId } = data;
+    //准备webRTC连接(发起方-true)
+    webRTCHandler.prepareNewPeerConnection(connUserSocketId, true);
   });
 };
 

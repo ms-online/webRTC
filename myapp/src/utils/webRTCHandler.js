@@ -87,7 +87,7 @@ export const handleSignalingData = (data) => {
 //显示本地视频
 const showLocalVideoPreview = (stream) => {};
 
-//添加接收的stream媒体流病进行显示
+//添加接收的stream媒体流并进行显示
 const addSteam = (stream, connUserSocketId) => {
   //使用js创建容器展示视频
 };
