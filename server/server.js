@@ -156,6 +156,9 @@ const disconnectHandler = (socket) => {
 
     //当会议房间没有人员的时候要关闭整个会议室（从rooms数组中删除该房间的信息）
     if (room.connectedUsers.length > 0) {
+      //用户断开WebRTC连接
+      io.to(room.id).emit('user-disconected', { socketId: socket.id });
+
       //发送通知告知有用户离开并更新房间
       io.to(room.id).emit('room-update', {
         connectedUsers: room.connectedUsers,

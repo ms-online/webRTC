@@ -38,6 +38,10 @@ export const connectWithSocketIOServer = () => {
     //准备webRTC连接(发起方-true)
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, true);
   });
+
+  socket.on('user-disconected', (data) => {
+    webRTCHandler.removePeerConnection(data);
+  });
 };
 
 //主持人创建会议房间

@@ -85,6 +85,28 @@ export const handleSignalingData = (data) => {
   peers[data.connUserSocketId].signal(data.signal); //==> peer2.signal(data)
 };
 
+export const removePeerConnection = (data) => {
+  const { socketId } = data;
+  const videoContainer = document.getElementById(socketId);
+  const videoElement = document.getElementById(`${socketId}-video`);
+
+  if (videoContainer && videoElement) {
+    const tracks = videoElement.srcObject.getTracks();
+
+    tracks.forEach((track) => track.stop());
+
+    videoElement.srcObject = null;
+    videoContainer.removeChild(videoElement);
+    videoContainer.parentNode.removeChild(videoContainer);
+
+    if (peers[socketId]) {
+      peers[socketId].destroy();
+    }
+
+    delete peers[socketId];
+  }
+};
+
 /////////////////////////Video UI ///////////////////////////////////////
 
 //显示本地视频
@@ -118,6 +140,7 @@ const addStream = (stream, connUserSocketId) => {
   videoElement.autoplay = true;
   videoElement.muted = true;
   videoElement.srcObject = stream;
+  videoElement.id = `${connUserSocketId}-video`;
 
   //onloadedmetadata在指定视频/音频（audio/video）的元数据加载后触发。
   videoElement.onloadedmetadata = () => {
