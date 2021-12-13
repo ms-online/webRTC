@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 
 import CameraButtonImg from '../../../resources/images/camera.svg';
 import CameraButtonImgOff from '../../../resources/images/cameraOff.svg';
+import * as webRTCHandler from '../../../utils/webRTCHandler';
 
 const CameraButton = () => {
   const [isLcoalVideoDisabled, setIsLcoalVideoDisabled] = useState(false);
 
   const handleCameraButtonPressed = () => {
+    webRTCHandler.toggleCamera(isLcoalVideoDisabled);
     setIsLcoalVideoDisabled(!isLcoalVideoDisabled);
   };
   return (
