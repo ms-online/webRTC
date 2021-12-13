@@ -162,7 +162,7 @@ const disconnectHandler = (socket) => {
       });
     } else {
       //从rooms数组中删除该房间的信息
-      rooms = rooms.filters((r) => r.id !== room.id);
+      rooms = rooms.filter((r) => r.id !== room.id);
     }
   }
 };

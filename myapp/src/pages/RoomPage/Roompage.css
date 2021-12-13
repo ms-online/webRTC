@@ -357,28 +357,28 @@ video {
 .video_track_container:first-child:nth-last-child(2)~.video_track_container {
     width: 50%;
     height: 50%;
-    position: relative;
+    /* position: relative; */
 }
 
 .video_track_container:first-child:nth-last-child(3),
 .video_track_container:first-child:nth-last-child(3)~.video_track_container {
     width: 50%;
     height: 50%;
-    position: relative;
+    /* position: relative; */
 }
 
 .video_track_container:first-child:nth-last-child(4),
 .video_track_container:first-child:nth-last-child(4)~.video_track_container {
     width: 50%;
     height: 50%;
-    position: relative;
+    /* position: relative; */
 }
 
 .video_track_container:first-child:nth-last-child(5),
 .video_track_container:first-child:nth-last-child(5)~.video_track_container {
     width: 33%;
     height: 33%;
-    position: relative;
+    /* position: relative; */
 }
 
 .video_track_container:first-child:nth-last-child(6),

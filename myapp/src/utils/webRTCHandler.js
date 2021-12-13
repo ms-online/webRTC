@@ -5,7 +5,7 @@ import * as wss from './wss';
 //指定请求的媒体类型和相对应的参数。
 const defaultConstraints = {
   audio: true,
-  video: true,
+  video: { width: '480', height: '360' },
 };
 
 let localStream;
@@ -123,6 +123,15 @@ const addStream = (stream, connUserSocketId) => {
   videoElement.onloadedmetadata = () => {
     videoElement.play();
   };
+
+  //放大/缩小视频信息
+  videoElement.addEventListener('click', () => {
+    if (videoElement.classList.contains('full_screen')) {
+      videoElement.classList.remove('full_screen');
+    } else {
+      videoElement.classList.add('full_screen');
+    }
+  });
 
   videoContainer.appendChild(videoElement);
   videosContainer.appendChild(videoContainer);
