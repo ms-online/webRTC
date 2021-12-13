@@ -73,9 +73,10 @@ export const prepareNewPeerConnection = (connUserSocketId, isInitator) => {
 
   //获取媒体流stream
   peers[connUserSocketId].on('stream', (stream) => {
+    console.log('成功获取远程Stream');
     //显示接收的stream媒体流
-    addSteam(stream, connUserSocketId);
-    streams = [...stream, stream];
+    addStream(stream, connUserSocketId);
+    streams = [...streams, stream];
   });
 };
 
@@ -84,10 +85,29 @@ export const handleSignalingData = (data) => {
   peers[data.connUserSocketId].signal(data.signal); //==> peer2.signal(data)
 };
 
+/////////////////////////Video UI ///////////////////////////////////////
+
 //显示本地视频
-const showLocalVideoPreview = (stream) => {};
+const showLocalVideoPreview = (stream) => {
+  const videosContainer = document.getElementById('videos_portal');
+  videosContainer.classList.add('videos_portal_styles');
+  const videoContainer = document.createElement('div');
+  videoContainer.classList.add('video_track_container');
+  const videoElement = document.createElement('video');
+  videoElement.autoplay = true;
+  videoElement.muted = true;
+  videoElement.srcObject = stream;
+
+  //onloadedmetadata在指定视频/音频（audio/video）的元数据加载后触发。
+  videoElement.onloadedmetadata = () => {
+    videoElement.play();
+  };
+
+  videoContainer.appendChild(videoElement);
+  videosContainer.appendChild(videoContainer);
+};
 
 //添加接收的stream媒体流并进行显示
-const addSteam = (stream, connUserSocketId) => {
+const addStream = (stream, connUserSocketId) => {
   //使用js创建容器展示视频
 };

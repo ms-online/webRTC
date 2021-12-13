@@ -170,7 +170,7 @@ const disconnectHandler = (socket) => {
 const signalingHandler = (data, socket) => {
   const { connUserSocketId, signal } = data;
 
-  const signalingData = { signal, conneUserSocketId: socket.id };
+  const signalingData = { signal, connUserSocketId: socket.id };
   io.to(connUserSocketId).emit('conn-signal', signalingData);
 };
 
