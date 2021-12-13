@@ -51,11 +51,11 @@ const getConfiguration = () => {
 };
 
 //准备webRTC连接
-export const prepareNewPeerConnection = (connUserSocketId, isInitator) => {
+export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {
   const configuration = getConfiguration();
   //实例化对等连接对象
   peers[connUserSocketId] = new Peer({
-    initiator: isInitator,
+    initiator: isInitiator,
     config: configuration,
     stream: localStream,
   });
@@ -158,4 +158,11 @@ const addStream = (stream, connUserSocketId) => {
 
   videoContainer.appendChild(videoElement);
   videosContainer.appendChild(videoContainer);
+};
+
+/////////////////////////button logic ///////////////////////////////////////
+export const toggleMic = (isMuted) => {
+  //getAudioTracks - 返回可用的音频轨道
+  //enabled - 获取或设置轨道是否激活 (true|false)
+  localStream.getAudioTracks()[0].enabled = isMuted ? true : false;
 };
