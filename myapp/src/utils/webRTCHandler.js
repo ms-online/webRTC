@@ -1,5 +1,5 @@
 import store from '../store/store';
-import { setShowOverlay } from '../store/actions';
+import { setShowOverlay, setMessages } from '../store/actions';
 import Peer from 'simple-peer';
 import * as wss from './wss';
 //指定请求的媒体类型和相对应的参数。
@@ -50,6 +50,8 @@ const getConfiguration = () => {
   };
 };
 
+const messageChannel = 'messager';
+
 //准备webRTC连接
 export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {
   const configuration = getConfiguration();
@@ -58,6 +60,7 @@ export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {
     initiator: isInitiator,
     config: configuration,
     stream: localStream,
+    channelName: messageChannel,
   });
 
   //信令数据传递
@@ -77,6 +80,12 @@ export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {
     //显示接收的stream媒体流
     addStream(stream, connUserSocketId);
     streams = [...streams, stream];
+  });
+
+  //data数据通道
+  peers[connUserSocketId].on('data', (data) => {
+    const messageData = JSON.parse(data);
+    appendNewMessage(messageData);
   });
 };
 
@@ -202,5 +211,36 @@ const switchVideoTracks = (stream) => {
         }
       }
     }
+  }
+};
+/////////////////////////Messages ///////////////////////////////////////
+const appendNewMessage = (messageData) => {
+  //同步到store进行保存
+  const messages = store.getState().messages;
+  store.dispatch(setMessages([...messages, messageData]));
+};
+
+//通过data通道发送聊天信息
+export const sendMessageUsingDataChannel = (messageContent) => {
+  //本地创建的聊天信息
+  const identity = store.getState().identity;
+
+  const localMessageData = {
+    content: messageContent,
+    identity: identity,
+    messageCreatedByMe: true,
+  };
+  //将本地发送的聊天信息存储到store
+  appendNewMessage(localMessageData);
+
+  //聊天信息发送给远程webRTC对等方
+  const messageData = {
+    content: messageContent,
+    identity: identity,
+  };
+
+  const stringifiedMessageData = JSON.stringify(messageData);
+  for (let socket_id in peers) {
+    peers[socket_id].send(stringifiedMessageData);
   }
 };

@@ -1,28 +1,5 @@
 import React from 'react';
-
-const messages = [
-  {
-    content: '大家好！我是Summer',
-    identity: 'Summer',
-    messageCreatedByMe: true,
-  },
-  {
-    content: '很高兴认识大家',
-    identity: 'Summer',
-    messageCreatedByMe: true,
-  },
-  {
-    content: '你好，Summer！',
-    identity: 'Henry',
-    messageCreatedByMe: false,
-  },
-  {
-    content: '欢迎你加入我们！',
-    identity: 'Lucy',
-    messageCreatedByMe: false,
-  },
-];
-
+import { connect } from 'react-redux';
 const Message = ({ author, content, sameAuthor, messageCreatedByMe }) => {
   const alignClass = messageCreatedByMe
     ? 'message_align_right'
@@ -42,7 +19,7 @@ const Message = ({ author, content, sameAuthor, messageCreatedByMe }) => {
   );
 };
 
-const Messages = () => {
+const Messages = ({ messages }) => {
   return (
     <div className='messages_container'>
       {messages.map((message, index) => {
@@ -62,4 +39,10 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  };
+};
+
+export default connect(mapStateToProps)(Messages);

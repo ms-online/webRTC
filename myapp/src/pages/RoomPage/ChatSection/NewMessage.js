@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SendMessageButton from '../../../resources/images/sendMessageButton.svg';
+import * as webRTCHandler from '../../../utils/webRTCHandler';
 const NewMessage = () => {
   const [message, setMessage] = useState('');
   const handleTextChange = (event) => {
@@ -14,9 +15,10 @@ const NewMessage = () => {
     }
   };
   const sendMessage = () => {
-    console.log('发送消息给其他用户...');
-    console.log(message);
+    // console.log('发送消息给其他用户...');
+    // console.log(message);
     //执行发送消息函数
+    webRTCHandler.sendMessageUsingDataChannel(message);
     setMessage('');
   };
   return (
