@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SwitchImg from '../../../resources/images/switchToScreenSharing.svg';
 import LocalScreenSharingPreview from './LocalScreenSharingPreview';
-
+import * as webRTCHandler from '../../../utils/webRTCHandler';
 const constrains = {
   audio: false,
   video: true,
@@ -21,9 +21,11 @@ const SwitchToScreenSharingButton = () => {
       }
       if (stream) {
         setScreenSharingStream(stream);
+        webRTCHandler.toggleScreenShare(isScreenSharingActive, stream);
         setIsScreenSharingActive(true);
       }
     } else {
+      webRTCHandler.toggleScreenShare(isScreenSharingActive);
       setIsScreenSharingActive(false);
       //停止共享屏幕
       screenSharingStream.getTracks().forEach((track) => track.stop());
