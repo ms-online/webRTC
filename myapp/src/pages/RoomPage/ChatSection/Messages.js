@@ -44,7 +44,7 @@ const Message = ({ author, content, sameAuthor, messageCreatedByMe }) => {
 
 const Messages = () => {
   return (
-    <div className='messages>container'>
+    <div className='messages_container'>
       {messages.map((message, index) => {
         const sameAuthor =
           index > 0 && message.identity === messages[index - 1].identity;
