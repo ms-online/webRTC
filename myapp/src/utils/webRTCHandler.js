@@ -39,7 +39,9 @@ export const getLocalPreviewAndInitRoomConnection = async (
       store.dispatch(setShowOverlay(false));
 
       //初始化房间连接
-      isRoomHost ? wss.createNewRoom(identity) : wss.joinRoom(roomId, identity);
+      isRoomHost
+        ? wss.createNewRoom(identity, onlyAudio)
+        : wss.joinRoom(roomId, identity, onlyAudio);
     })
     .catch((error) => {
       console.log('无法获取本地媒体流！');
@@ -145,6 +147,11 @@ const showLocalVideoPreview = (stream) => {
   };
 
   videoContainer.appendChild(videoElement);
+
+  //仅开启音频的样式
+  if (store.getState().connectOnlyWithAudio) {
+    videoContainer.appendChild(onlyAudioLabel());
+  }
   videosContainer.appendChild(videoContainer);
 };
 
@@ -176,9 +183,29 @@ const addStream = (stream, connUserSocketId) => {
   });
 
   videoContainer.appendChild(videoElement);
+
+  //判断哪些用户是仅开启音频
+  const participants = store.getState().participants;
+  const participant = participants.find((p) => p.socketId === connUserSocketId);
+
+  if (participant?.onlyAudio) {
+    videoContainer.appendChild(onlyAudioLabel(participant.identity));
+  }
+
   videosContainer.appendChild(videoContainer);
 };
 
+//仅开启音频链接的样式效果
+const onlyAudioLabel = (identity = '') => {
+  const labelContainer = document.createElement('div');
+  labelContainer.classList.add('label_only_audio_container');
+
+  const label = document.createElement('p');
+  label.classList.add('label_only_audio_text');
+  label.innerHTML = `${identity}仅开启音频连接`;
+  labelContainer.appendChild(label);
+  return labelContainer;
+};
 /////////////////////////button logic ///////////////////////////////////////
 export const toggleMic = (isMuted) => {
   //getAudioTracks - 返回可用的音频轨道
