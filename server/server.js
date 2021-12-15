@@ -65,6 +65,9 @@ io.on('connection', (socket) => {
   socket.on('conn-init', (data) => {
     initializeConnectionHandler(data, socket);
   });
+  socket.on('direct-message', (data) => {
+    directMessageHandler(data, socket);
+  });
 });
 
 // socket.io handler
@@ -184,6 +187,32 @@ const initializeConnectionHandler = (data, socket) => {
 
   const initData = { connUserSocketId: socket.id };
   io.to(connUserSocketId).emit('conn-init', initData);
+};
+
+const directMessageHandler = (data, socket) => {
+  if (
+    connectedUsers.find(
+      (connUser) => connUser.socketId === data.receiverSocketId
+    )
+  ) {
+    //信息发送给接收方
+    const receiverData = {
+      authorSocketId: socket.id,
+      messageContent: data.messageContent,
+      isAuthor: false,
+      identity: data.identity,
+    };
+    socket.to(data.receiverSocketId).emit('direct-message', receiverData);
+
+    //信息返回给发送方
+    const authorData = {
+      receiverSocketId: data.receiverSocketId,
+      messageContent: data.messageContent,
+      isAuthor: true,
+      identity: data.identity,
+    };
+    socket.emit('direct-message', authorData);
+  }
 };
 
 //监听端口号

@@ -43,6 +43,11 @@ export const connectWithSocketIOServer = () => {
   socket.on('user-disconected', (data) => {
     webRTCHandler.removePeerConnection(data);
   });
+
+  socket.on('direct-message', (data) => {
+    console.log('成功获取发送的私信');
+    console.log(data);
+  });
 };
 
 //主持人创建会议房间
@@ -69,4 +74,8 @@ export const joinRoom = (roomId, identity, onlyAudio) => {
 
 export const signalPeerData = (data) => {
   socket.emit('conn-signal', data);
+};
+
+export const sendDirectMessage = (data) => {
+  socket.emit('direct-message', data);
 };
