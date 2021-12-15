@@ -15,6 +15,13 @@ const RoomPage = ({
   connectOnlyWithAudio,
 }) => {
   useEffect(() => {
+    //路由守卫
+    if (!isRoomHost && !roomId) {
+      // 动态获取接口
+      const siteUrl = window.location.origin;
+      // 设置当前定向到的URL
+      window.location.href = siteUrl;
+    }
     webRTCHandler.getLocalPreviewAndInitRoomConnection(
       isRoomHost,
       identity,
