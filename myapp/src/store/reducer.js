@@ -7,6 +7,9 @@ const initState = {
   showOverlay: true,
   participants: [],
   messages: [],
+  activeConversation: null,
+  directChatHistory: [],
+  socketId: null,
 };
 
 const reducer = (state = initState, action) => {
@@ -16,43 +19,58 @@ const reducer = (state = initState, action) => {
         ...state,
         isRoomHost: action.isRoomHost,
       };
-      break;
+
     case Actions.SET_CONNECT_ONLY_WITH_AUDIO:
       return {
         ...state,
         connectOnlyWithAudio: action.onlyWithAudio,
       };
-      break;
+
     case Actions.SET_ROOM_ID:
       return {
         ...state,
         roomId: action.roomId,
       };
-      break;
+
     case Actions.SET_IDENTITY:
       return {
         ...state,
         identity: action.identity,
       };
-      break;
+
     case Actions.SET_SHOW_OVERLAY:
       return {
         ...state,
         showOverlay: action.showOverlay,
       };
-      break;
+
     case Actions.SET_PARTICIPANTS:
       return {
         ...state,
         participants: action.participants,
       };
-      break;
+
     case Actions.SET_MESSAGES:
       return {
         ...state,
         messages: action.messages,
       };
-      break;
+    case Actions.SET_ACTIVE_CONVERSATION:
+      return {
+        ...state,
+        activeConversation: action.activeConversation,
+      };
+    case Actions.SET_DIRECT_CHAT_HISTORY:
+      return {
+        ...state,
+        directChatHistory: action.directChatHistory,
+      };
+    case Actions.SET_SOCKET_ID:
+      return {
+        ...state,
+        socketId: action.socketId,
+      };
+
     default:
       return state;
   }
