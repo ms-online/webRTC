@@ -3,7 +3,7 @@ import ConversationNotChosen from './ConversationNotChosen';
 import DirectChatHeader from './DirectChatHeader';
 import MessagesContainer from './MessagesContainer';
 import NewMessage from './NewMessage';
-
+import { connect } from 'react-redux';
 const DirectChat = ({ activeConversation, directChatHistory }) => {
   const [messages, setMessages] = useState([]);
   return (
@@ -16,4 +16,10 @@ const DirectChat = ({ activeConversation, directChatHistory }) => {
   );
 };
 
-export default DirectChat;
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  };
+};
+
+export default connect(mapStateToProps)(DirectChat);

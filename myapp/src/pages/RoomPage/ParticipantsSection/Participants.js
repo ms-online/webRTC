@@ -1,18 +1,40 @@
 import React from 'react';
+import { setActiveConversation } from '../../../store/actions';
 import { connect } from 'react-redux';
 
 const SingelParticipant = (props) => {
-  const { identity, lastItem, participant } = props;
+  const {
+    identity,
+    lastItem,
+    participant,
+    setActiveConversationAction,
+    socketId,
+  } = props;
 
+  //激活私信聊天，获取对象信息
+  const handleOpenActiveConversation = () => {
+    if (participant.socketId !== socketId) {
+      setActiveConversationAction(participant);
+    }
+  };
   return (
     <>
-      <p className='participants_paragraph'>{identity}</p>
+      <p
+        className='participants_paragraph'
+        onClick={handleOpenActiveConversation}
+      >
+        {identity}
+      </p>
       {!lastItem && <span className='participants_separator_line'></span>}
     </>
   );
 };
 
-const Participants = ({ participants }) => {
+const Participants = ({
+  participants,
+  setActiveConversationAction,
+  socketId,
+}) => {
   return (
     <div className='participants_container'>
       {participants.map((participant, index) => {
@@ -22,6 +44,8 @@ const Participants = ({ participants }) => {
             lastItem={participants.length === index + 1}
             participant={participant}
             key={participant.identity}
+            setActiveConversationAction={setActiveConversationAction}
+            socketId={socketId}
           />
         );
       })}
@@ -35,4 +59,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Participants);
+const mapActionsToProps = (dispatch) => {
+  return {
+    setActiveConversationAction: (activeConversation) => {
+      dispatch(setActiveConversation(activeConversation));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Participants);

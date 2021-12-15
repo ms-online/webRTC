@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import store from '../store/store';
-import { setRoomId, setParticipants } from '../store/actions';
+import { setRoomId, setParticipants, setSocketId } from '../store/actions';
 import * as webRTCHandler from './webRTCHandler';
 const SERVER = 'http://localhost:5000';
 
@@ -11,6 +11,7 @@ export const connectWithSocketIOServer = () => {
   socket.on('connect', () => {
     console.log('成功连接到socket.io 服务器');
     console.log(socket.id);
+    store.dispatch(setSocketId(socket.id));
   });
   socket.on('room-id', (data) => {
     const { roomId } = data;
