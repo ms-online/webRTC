@@ -7,12 +7,19 @@ import * as webRTCHandler from '../../utils/webRTCHandler';
 import './Roompage.css';
 import VideoSection from './VideoSection/VideoSection';
 import Overlay from './Overlay';
-const RoomPage = ({ roomId, isRoomHost, identity, showOverlay }) => {
+const RoomPage = ({
+  roomId,
+  isRoomHost,
+  identity,
+  showOverlay,
+  connectOnlyWithAudio,
+}) => {
   useEffect(() => {
     webRTCHandler.getLocalPreviewAndInitRoomConnection(
       isRoomHost,
       identity,
-      roomId
+      roomId,
+      connectOnlyWithAudio
     );
   }, []);
 

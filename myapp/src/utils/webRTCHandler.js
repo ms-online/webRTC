@@ -8,17 +8,27 @@ const defaultConstraints = {
   video: { width: '480', height: '360' },
 };
 
+//仅开启音频链接
+const onlyAudioConstraints = {
+  audio: true,
+  video: false,
+};
+
 let localStream;
 
 //获取本地预览及初始化房间连接
 export const getLocalPreviewAndInitRoomConnection = async (
   isRoomHost,
   identity,
-  roomId = null
+  roomId = null,
+  onlyAudio
 ) => {
+  //判断是开启音频还是音视频
+  const constrains = onlyAudio ? onlyAudioConstraints : defaultConstraints;
+
   //采集本地音视频流（获取媒体输入的访问权限）
   navigator.mediaDevices
-    .getUserMedia(defaultConstraints)
+    .getUserMedia(constrains)
     .then((stream) => {
       //   console.log('成功获取本地媒体流');
       localStream = stream;
