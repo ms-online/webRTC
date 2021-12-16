@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import store from '../store/store';
 import { setRoomId, setParticipants, setSocketId } from '../store/actions';
 import * as webRTCHandler from './webRTCHandler';
+import { appendNewMessageToChatHistory } from './directMessages';
 const SERVER = 'http://localhost:5000';
 
 let socket = null;
@@ -45,8 +46,9 @@ export const connectWithSocketIOServer = () => {
   });
 
   socket.on('direct-message', (data) => {
-    console.log('成功获取发送的私信');
-    console.log(data);
+    // console.log('成功获取发送的私信');
+    // console.log(data);
+    appendNewMessageToChatHistory(data);
   });
 };
 

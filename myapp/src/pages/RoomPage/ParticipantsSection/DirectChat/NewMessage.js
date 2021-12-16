@@ -23,6 +23,7 @@ const NewMessage = ({ activeConversation, identity }) => {
       identity: identity,
       messageContent: message,
     });
+    setMessage('');
   };
 
   return (
