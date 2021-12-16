@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 const SingleMessage = ({ isAuthor, messageContent }) => {
   const messageStyling = isAuthor
     ? 'author_direct_message'
@@ -15,16 +15,26 @@ const SingleMessage = ({ isAuthor, messageContent }) => {
   );
 };
 const MessagesContainer = ({ messages }) => {
+  const scrollRef = useRef();
+  useEffect(() => {
+    //让元素平滑滚动到窗口的可视区域
+    if (scrollRef) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
   return (
     <div className='direct_messages_container'>
       {messages.map((message) => {
-        <SingleMessage
-          messageContent={message.messageContent}
-          identity={message.identity}
-          isAuthor={message.isAuthor}
-          key={`${message.messageContent} - ${message.identity}`}
-        />;
+        return (
+          <SingleMessage
+            messageContent={message.messageContent}
+            identity={message.identity}
+            isAuthor={message.isAuthor}
+            key={`${message.messageContent} - ${message.identity}`}
+          />
+        );
       })}
+      <div ref={scrollRef}></div>
     </div>
   );
 };

@@ -6,10 +6,10 @@ export const appendNewMessageToChatHistory = (data) => {
   //根据isAuhtor的值判断历史记录应该存储在那个用户（接收方/发送方）的历史记录里面
   if (isAuthor) {
     //作为消息的发送方去存储历史记录
-    appendMessageToChatHistory(authorSocketId, data);
+    appendMessageToChatHistory(receiverSocketId, data);
   } else {
     //作为消息的接收方去存储历史记录
-    appendMessageToChatHistory(receiverSocketId, data);
+    appendMessageToChatHistory(authorSocketId, data);
   }
 };
 
