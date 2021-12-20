@@ -36,5 +36,8 @@ export const getLocalPreviewAndInitRoomConnection = async (
     });
 };
 
+//准备webRTC对等连接
+export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {};
+
 //显示本地视频
 const showLocalVideoPreview = (stream) => {};

@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import store from '../store/store';
 import { setRoomId, setParticipants } from '../store/actions';
+import * as webRTCHandler from './webRTCHandler';
 const SERVER = 'http://localhost:5000';
 
 let socket = null;
@@ -18,6 +19,13 @@ export const connectWithSocketIOServer = () => {
   socket.on('room-update', (data) => {
     const { connectedUsers } = data;
     store.dispatch(setParticipants(connectedUsers));
+  });
+
+  socket.on('conn-prepare', (data) => {
+    const { connUserSocketId } = data;
+
+    //已经存在于房间的用户准备webRTC对等连接 ,false意味着发起方在等待接收方准备webRTC
+    webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);
   });
 };
 
