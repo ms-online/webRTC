@@ -59,6 +59,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     disconnectHandler(socket);
   });
+
+  socket.on('conn-signal', (data) => {
+    signalingHandler(data, socket);
+  });
 });
 
 // socket.io handler
@@ -157,6 +161,15 @@ const disconnectHandler = (socket) => {
       rooms = rooms.filters((r) => r.id !== room.id);
     }
   }
+};
+
+//交换信令数据
+const signalingHandler = (data, socket) => {
+  //注意：此时的socket对象是对等连接【接收方】的socket，而data中的connUserSocketId是对等连接【发起方】的socket
+  const { connUserSocketId, signal } = data;
+  //交换connUserSocketId的目的是为了在peers对象中找到【接收方】，并调用signal方法存储【发起方】的信令
+  const signalingData = { signal, connUserSocketId: socket.id };
+  io.to(connUserSocketId).emit('conn-signal', signalingData);
 };
 
 //监听端口号
