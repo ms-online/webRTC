@@ -23,10 +23,10 @@ export const connectWithSocketIOServer = () => {
 
   socket.on('conn-prepare', (data) => {
     const { connUserSocketId } = data;
-    //准备webRTC连接(应答方-false)
+    //已经存在于房间的用户准备webRTC对等连接 ,false意味着发起方在等待接收方准备webRTC
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, false);
 
-    //通知对方我已经准备完毕可以进行webRTC连接
+    //通知对方（【发起方】）我已经准备完毕可以进行webRTC连接
     socket.emit('conn-init', { connUserSocketId: connUserSocketId });
   });
   socket.on('conn-signal', (data) => {
@@ -35,7 +35,7 @@ export const connectWithSocketIOServer = () => {
 
   socket.on('conn-init', (data) => {
     const { connUserSocketId } = data;
-    //准备webRTC连接(发起方-true)
+    //接收方的socketId -刘备的socketID
     webRTCHandler.prepareNewPeerConnection(connUserSocketId, true);
   });
 
