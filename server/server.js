@@ -93,7 +93,7 @@ const createNewRoomHandler = (data, socket) => {
   //创建新会议房间
   const newRoom = {
     id: roomId,
-    connectedUsers,
+    connectedUsers: [newUser],
   };
 
   //新用户加入会议房间
